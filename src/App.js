@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useMemo, useState } from "react";
+import { Route, Routes } from "react-router-dom";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import Product from "./components/Product";
+import ProductDetail from "./components/ProductDetail";
+import Navbar from "./components/Navbar";
+import Cart from "./components/Cart";
 
-function App() {
+const App = () => {
+  const [isUser, setIsUser] = useState({});
+  const isUserLogin = useMemo(() => {
+    return JSON.parse(localStorage.getItem("user"));
+  }, []);
+
+  useEffect(() => {
+    setIsUser(isUserLogin);
+  }, [isUserLogin]);
+
+  console.log("kjbkj", isUserLogin);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {isUserLogin?.email ? <Navbar /> : ""}
+
+      <Routes>
+        {isUser?.email ? (
+          <>
+            <Route path="/product" element={<Product />} exact />
+            <Route path="/Album/:id" element={<ProductDetail />} />
+            <Route path="/cart" element={<Cart />} />
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+          </>
+        )}
+      </Routes>
     </div>
   );
-}
+};
 
 export default App;
