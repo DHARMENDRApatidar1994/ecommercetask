@@ -62,6 +62,7 @@ const ProductDetail = () => {
 
           </div>
         </div>
+        
         <div className='smallImageBox'>
             <img className='smallImage' src={`${obj.img}`} alt="" />
             <img className='smallImage' src={`${obj.img}`} alt="" />
